@@ -3,7 +3,14 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $judul; ?></h1>
-
+    <?php if (session()->get('message')) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            Data siswa berhasil <strong><?= session()->getFlashdata('message'); ?></strong>
+        </div>
+    <?php endif; ?>
 
 
     <div class="card">
@@ -19,6 +26,7 @@
                         <th>No</th>
                         <th>Nisn</th>
                         <th>Nama</th>
+                        <th>Opsi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +36,9 @@
                             <td scope="row"><?= $i; ?></td>
                             <td><?= $row['nisn']; ?></td>
                             <td><?= $row['nama']; ?></td>
+                            <td>
+                                <button type="button" data-toggle="modal" data-target="#modalhapus" class="btn btn-sm btn-danger"><i class="fa fa-trash-alt"></i></button>
+                            </td>
                         </tr>
                         <?php $i++; ?>
                     <?php endforeach; ?>
@@ -74,6 +85,32 @@
         </form>
     </div>
 </div>
+
+<!-- Modal hapus -->
+<div class="modal fade" id="modalhapus">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    Apakah anda yalin ingin menghapus data
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="/siswa/hapus/<?= $row['id']; ?>" class="btn btn-primary">Ya</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', event => {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        // Use above variables to manipulate the DOM
+
+    });
+</script>
 
 <script>
     $('#exampleModal').on('show.bs.modal', event => {
