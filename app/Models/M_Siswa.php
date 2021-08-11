@@ -13,17 +13,21 @@ class M_Siswa extends Model
         $this->builder = $this->db->table($this->table);
     }
 
-    public function getAllData()
+    public function getAllData($id = null)
     {
         //return $this->builder->get();
-        return $this->db->table('siswa')->get()->getResultArray();
+        if ($id == null) {
+            return $this->db->table('siswa')->get()->getResultArray();
+        } else {
+            $this->builder->where('id', $id);
+            return $this->builder->get()->getRowArray();
+        }
     }
 
-    public function getDataById($id)
-    {
-        $this->builder->where('id', $id);
-        return $this->builder->get()->getRowArray();
-    }
+    // public function getDataById($id)
+    // {
+
+    // }
 
     public function tambah($data)
     {

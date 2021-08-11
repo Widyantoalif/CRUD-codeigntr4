@@ -12,6 +12,7 @@ class Siswa extends Controller
     public function __construct()
     {
         $this->model = new M_Siswa;
+        helper('sn');
     }
     public function index()
     {
@@ -20,11 +21,8 @@ class Siswa extends Controller
             'judul' => 'Data Siswa',
             'siswa' => $this->model->getAllData()
         ];
-        echo view('Templates/v_header', $data);
-        echo view('Templates/v_sidebar');
-        echo view('Templates/v_topbar');
-        echo view('Siswa/index', $data);
-        echo view('Templates/v_footer');
+        //load view
+        tampilan('siswa/index', $data);
     }
 
     public function tambah()
@@ -47,11 +45,8 @@ class Siswa extends Controller
                     'judul' => 'Data Siswa',
                     'siswa' => $this->model->getAllData()
                 ];
-                echo view('Templates/v_header', $data);
-                echo view('Templates/v_sidebar');
-                echo view('Templates/v_topbar');
-                echo view('Siswa/index', $data);
-                echo view('Templates/v_footer');
+                //load view
+                tampilan('siswa/index', $data);
             } else {
                 $data = [
                     'nisn' => $this->request->getPost('nisn'),
@@ -74,18 +69,17 @@ class Siswa extends Controller
 
     public function hapus($id)
     {
-        $success = $this->model->hapus($id);
-        if ($success) {
-            session()->setFlashdata('message', 'Dihapus');
-            return redirect()->to(base_url('/siswa'));
-        }
+        $this->model->hapus($id);
+
+        session()->setFlashdata('message', 'Dihapus');
+        return redirect()->to(base_url('/siswa'));
     }
     public function ubah()
     {
         if (isset($_POST['ubah'])) {
             $id = $this->request->getPost('id');
             $nisn = $this->request->getpost('nisn');
-            $db_nisn = $this->model->getDataById($id)['nisn'];
+            $db_nisn = $this->model->getAllData($id)['nisn'];
 
             if ($nisn === $db_nisn) {
                 $val = $this->validate([
@@ -118,11 +112,8 @@ class Siswa extends Controller
                     'judul' => 'Data Siswa',
                     'siswa' => $this->model->getAllData()
                 ];
-                echo view('Templates/v_header', $data);
-                echo view('Templates/v_sidebar');
-                echo view('Templates/v_topbar');
-                echo view('Siswa/index', $data);
-                echo view('Templates/v_footer');
+                //load view
+                tampilan('siswa/index', $data);
             } else {
                 $id = $this->request->getPost('id');
                 $data = [
